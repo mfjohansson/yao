@@ -1,0 +1,26 @@
+{
+  "name": "yao",
+  "version": "0.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:mfjohansson/yao.git"
+  },
+  "author": "Magnus Johansson <magnus@johansson.sx>",
+  "license": "CC-BY-NC",
+  "private": false,
+  "bugs": {
+    "url": "https://github.com/mfjohansson/yao/issues"
+  },
+  "homepage": "https://github.com/mfjohansson/yao",
+  "dependencies": {
+    "express": "4.x",
+    "jade": "^1.7.0",
+    "mongodb": "^1.4.12",
+    "body-parser": "^1.8.3"
+  }
+}

@@ -1,0 +1,82 @@
+<!doctype html>
+<html ng-app="yao">
+  <head>
+    <script src="/components/angularjs/angular.min.js"></script>
+    <script>
+    angular.module('yao', []);
+    </script>
+    <script src="/js/menu-ctrl.js"></script>
+    <script src="/js/collection-ctrl.js"></script>
+  </head>
+  <body>
+
+    <div ng-controller="MenuCtrl">
+    </div>
+
+      <div ng-controller="CollectionCreateCtrl">
+        <h1>Create collection</h1>
+        <form ng-submit="create()">
+          <input type="text" ng-model="collection.system_name" placeholder="System name" /><br />
+          <input type="text" ng-model="collection.name" placeholder="Name" /><br />
+          
+          <table style="border:1px dashed black;width:300px;">
+            <tr ng-repeat="field in collection.fields">
+              <td><input type="text" ng-model="field.system_name" placeholder="Field system name" /></td>
+              <td><input type="text" ng-model="field.name" placeholder="Field name" /></td>
+              <td>{{field.type}}</td>
+              <td><a ng-href="#" ng-click="removeField(field)">Remove field</a></td>
+            </tr>
+          </table>
+          <a ng-href="#" ng-click="addField()">Add field</a>
+
+          <input type="submit" value="Save" />
+        </form>
+      </div>
+
+    <div ng-controller="CollectionCtrl">
+      <div ng-controller="CollectionListCtrl" ng-init="list()">
+        <h1>List of collections</h1>
+        <table>
+          <tr ng-repeat="col in collections" ng-click="view(col)" style="cursor:pointer;">
+            <td>{{col.system_name}}</td>
+            <td>{{col.name}}</td>
+          </tr>
+        </table>
+      </div>
+
+      <div ng-controller="CollectionUpdateCtrl">
+        <h1>Update collection</h1>
+        <form ng-submit="create()">
+          <input type="text" ng-model="collection.system_name" placeholder="System name" /><br />
+          <input type="text" ng-model="collection.name" placeholder="Name" /><br />
+          
+          <table style="border:1px dashed black;width:300px;">
+            <tr ng-repeat="field in collection.fields">
+              <td><input type="text" ng-model="field.system_name" placeholder="Field system name" /></td>
+              <td><input type="text" ng-model="field.name" placeholder="Field name" /></td>
+              <td>{{field.type}}</td>
+              <td><a ng-href="#" ng-click="removeField(field)">Remove field</a></td>
+            </tr>
+          </table>
+          <a ng-href="#" ng-click="addField()">Add field</a>
+
+          <input type="submit" value="Save" />
+        </form>
+      </div>
+
+      <div ng-controller="CollectionViewCtrl">
+        <h1>Collection: {{collection.name}}</h1>
+        System name: {{collection.system_name}}
+        <table>
+          <tr ng-repeat="field in collection.fields">
+            <td>{{field.name}}</td>
+            <td>{{field.system_name}}</td>
+            <td>{{field.type}}</td>
+          </tr>
+        </table>
+      </div>
+
+    </div>
+
+  </body>
+</html>

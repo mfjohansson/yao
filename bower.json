@@ -1,0 +1,23 @@
+{
+  "name": "yao",
+  "version": "0.0.0",
+  "authors": [
+    "Magnus Johansson <magnus@johansson.sx>"
+  ],
+  "main": "app.js",
+  "moduleType": [
+    "node"
+  ],
+  "license": "CC-BY-NC",
+  "homepage": "https://github.com/mfjohansson/yao",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angularjs": "~1.2.25"
+  }
+}
