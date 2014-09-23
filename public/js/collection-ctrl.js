@@ -7,6 +7,7 @@ angular.module('yao').controller('CollectionListCtrl', ['$scope', '$http', '$roo
   $scope.list = function() {
     $http.get('/api/v1/collections').success(function(collections) {
       $scope.collections = collections;
+      $rootScope.$broadcast('listCollection', collections);
     });
   };
 
@@ -21,21 +22,37 @@ angular.module('yao').controller('CollectionListCtrl', ['$scope', '$http', '$roo
 }]);
 
 angular.module('yao').controller('CollectionCreateCtrl', ['$scope', '$http', '$rootScope', function($scope, $http, $rootScope) {
-  $scope.collection = {fields:[]};
+  $scope.collection = {fields:[{type: 'yao_string', labels: []}]};
 
   $scope.create = function() {
     $http.post('/api/v1/collections', $scope.collection).success(function(col) {
       $rootScope.$broadcast('createCollection', col);
-      $scope.collection = {};
+      $scope.collection = {fields:[]};
     });
   };
 
   $scope.addField = function() {
-    $scope.collection.fields.push({type: 'text'});
+    $scope.collection.fields.push({fields:[{type: 'yao_string', labels: []}]});
   };
   $scope.removeField = function(field) {
     $scope.collection.fields.splice($scope.collection.fields.indexOf(field), 1);
   };
+
+  $scope.addLabel = function(field) {
+    field.labels.push({});
+  };
+  $scope.removeLabel = function(field, label) {
+    field.labels.splice(field.labels.indexOf(label), 1);
+  };
+
+  $scope.types = [];
+  $scope.getTypes = function() {
+    $http.get('/api/v1/types').success(function(types) {
+      $scope.types = types;
+    });
+  };
+
+  $scope.getTypes();
 
 }]);
 
@@ -43,7 +60,7 @@ angular.module('yao').controller('CollectionUpdateCtrl', ['$scope', '$http', fun
   $scope.collection = {fields:[]};
 
   $scope.update = function() {
-    $http.post('/api/v1/collections' + $scope.collection._id).success(function(collections) {
+    $http.post('/api/v1/collections/' + $scope.collection._id).success(function(collections) {
     });
   };
 
@@ -54,10 +71,10 @@ angular.module('yao').controller('CollectionUpdateCtrl', ['$scope', '$http', fun
     $scope.collection.fields.splice($scope.collection.fields.indexOf(field), 1);
   };
 
-  $scope.$on('viewCollection', function(e, data) {
+  /*$scope.$on('viewCollection', function(e, data) {
     $scope.collection = data;
     return e;
-  });
+  });*/
 
   $scope.$on('createCollection', function(e, data) {
     console.log('created');

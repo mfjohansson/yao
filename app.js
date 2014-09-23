@@ -19,6 +19,9 @@ app.use(bodyParser.urlencoded({
   extended: true
 }));
 
+// Load some stuff
+global.TYPES = require('./lib/type-loader');
+
 // Routes
 require('./lib/routes')(app);
 

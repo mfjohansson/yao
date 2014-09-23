@@ -1,0 +1,58 @@
+* {
+	box-sizing: border-box;
+	font-family: Arial;
+	color:#333333;
+}
+
+html {
+	background-color:#E4DDEB;
+}
+
+body {
+	margin:0 auto;
+	max-width:1600px;
+}
+
+input, select {
+	padding: 5px;
+}
+
+table {
+	width:100%;
+}
+
+.collection-wrapper {
+	 float:left;
+	 width:48%;
+	 margin-right:4%;
+}
+
+.item-wrapper {
+	 float:left;
+	 width:48%;
+}
+
+h1 {
+	font-weight: normal;
+	margin-top: 0px;
+}
+
+.part {
+	padding:15px;
+	border:1px solid #775593;
+	background-color: #ffffff;
+	margin-bottom: 30px;
+	box-shadow: 0px 0px 23px 0px rgba(50, 50, 50, 0.75);
+}
+
+.option {
+	padding:8px 15px;
+	display:inline-block;
+	cursor:pointer;
+}
+.option.checked {
+	background-color:lightgreen;
+}
+.option.not-checked {
+	background-color:lightgray;
+}

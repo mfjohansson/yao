@@ -21,6 +21,7 @@
     "express": "4.x",
     "jade": "^1.7.0",
     "mongodb": "^1.4.12",
-    "body-parser": "^1.8.3"
+    "body-parser": "^1.8.3",
+    "lodash": "^2.4.1"
   }
 }
