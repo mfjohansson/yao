@@ -17,7 +17,7 @@
     </div>
 
     <!-- Collections -->
-    <div ng-controller="CollectionCtrl" class="collection-wrapper">
+    <div ng-controller="CollectionCtrl" class="collection-wrapper" ng-init="list()">
 
       <div ng-controller="CollectionCreateCtrl" class="part">
         <h1>Create collection</h1>
@@ -28,14 +28,14 @@
           <table style="border:1px dashed black;min-width:300px;">
             <tr ng-repeat="field in collection.fields">
               <td><input type="text" ng-model="field.system_name" placeholder="Field system name" /></td>
+              <td><input type="text" ng-model="field.name" placeholder="Field name" /></td>
               <td>
                 <select ng-model="field.type" data-ng-options="type.system_name as type.label for (k, type) in types" data-ng-required>
                 </select>
               </td>
-              <td><input type="text" ng-model="field.name" placeholder="Field name" /></td>
               <td>
                 <div ng-show="field.type == 'yao_ref'">
-                  <select ng-model="field.ref" data-ng-options="col._id as col.system_name for col in collections" data-ng-required>
+                  <select ng-model="field.ref" data-ng-options="col.system_name as col.name for col in collections">
                   </select>
                 </div>
                 <div ng-show="field.type == 'yao_boolean'">
@@ -50,7 +50,6 @@
                     <a ng-href="#" ng-click="removeLabel(field, label)">Remove option</a>
                   </div>
                   <a ng-href="#" ng-click="addLabel(field)">Add option</a>
-                  </div>
                 </div>
               </td>
               <td><a ng-href="#" ng-click="removeField(field)">Remove field</a></td>
@@ -62,7 +61,7 @@
         </form>
       </div>
 
-      <div ng-controller="CollectionListCtrl" ng-init="list()" class="part">
+      <div ng-controller="CollectionListCtrl" class="part">
         <h1>List of collections</h1>
         <table>
           <tr ng-repeat="col in collections" ng-click="view(col)" style="cursor:pointer;">
@@ -74,26 +73,7 @@
 
       <div ng-controller="CollectionUpdateCtrl" class="part">
         <h1>Update collection</h1>
-        <form ng-submit="create()">
-          <input type="text" ng-model="collection.system_name" placeholder="System name" /><br />
-          <input type="text" ng-model="collection.name" placeholder="Name" /><br />
-          
-          <table style="border:1px dashed black;width:300px;">
-            <tr ng-repeat="field in collection.fields">
-              <td><input type="text" ng-model="field.system_name" placeholder="Field system name" /></td>
-              <td>
-                <select ng-model="field.type" data-ng-options="type.value as type.title for type in [{value: 'text', title: 'Normal text'}, {value: 'number', title: 'Number'}]" data-ng-required>
-                    <option value="">Välj nedan...</option>
-                </select>
-              </td>
-              <td><input type="text" ng-model="field.name" placeholder="Field name" /></td>
-              <td><a ng-href="#" ng-click="removeField(field)">Remove field</a></td>
-            </tr>
-          </table>
-          <a ng-href="#" ng-click="addField()">Add field</a>
-
-          <input type="submit" value="Save" />
-        </form>
+        <i>Todo</i>
       </div>
 
       <div ng-controller="CollectionViewCtrl" class="part">
@@ -121,11 +101,18 @@
               <div ng-switch-when="yao_string">
                 <input type="text" ng-model="item[field.system_name]" placeholder="{{field.name}}" />
               </div>
+              <div ng-switch-when="yao_datetime">
+                <input type="text" ng-model="item[field.system_name]" placeholder="{{field.name}}" />
+              </div>
               <div ng-switch-when="yao_number">
                 <input type="number" ng-model="item[field.system_name]" placeholder="{{field.name}}" />
               </div>
               <div ng-switch-when="yao_boolean">
                 <input type="checkbox" ng-model="item[field.system_name]" /> {{field.name}}
+              </div>
+              <div ng-switch-when="yao_ref">
+                <select ng-model="item[field.system_name]" data-ng-options="item._id as item._id for (k, item) in refItems[field.ref]">
+                </select>
               </div>
               <div ng-switch-when="yao_multi" ng-init="item[field.system_name] = []">
                 <strong>{{field.name}}</strong>

@@ -1,7 +1,4 @@
-angular.module('yao').controller('CollectionCtrl', ['$scope', function($scope) {
-}]);
-
-angular.module('yao').controller('CollectionListCtrl', ['$scope', '$http', '$rootScope', function($scope, $http, $rootScope) {
+angular.module('yao').controller('CollectionCtrl', ['$scope', '$http', '$rootScope', function($scope, $http, $rootScope) {
   $scope.collections = [];
 
   $scope.list = function() {
@@ -11,13 +8,17 @@ angular.module('yao').controller('CollectionListCtrl', ['$scope', '$http', '$roo
     });
   };
 
-  $scope.view = function(col) {
-    $rootScope.$broadcast('viewCollection', col);
-  };
-
   $scope.$on('createCollection', function() {
     $scope.list();
   });
+
+}]);
+
+angular.module('yao').controller('CollectionListCtrl', ['$rootScope', '$scope', function($rootScope, $scope) {
+
+  $scope.view = function(col) {
+    $rootScope.$broadcast('viewCollection', col);
+  };
 
 }]);
 
@@ -32,13 +33,20 @@ angular.module('yao').controller('CollectionCreateCtrl', ['$scope', '$http', '$r
   };
 
   $scope.addField = function() {
+    if (!$scope.collection.fields) {
+      $scope.collection.fields = [];
+    }
     $scope.collection.fields.push({fields:[{type: 'yao_string', labels: []}]});
+    console.log($scope.collection.fields);
   };
   $scope.removeField = function(field) {
     $scope.collection.fields.splice($scope.collection.fields.indexOf(field), 1);
   };
 
   $scope.addLabel = function(field) {
+    if (!field.labels) {
+      field.labels = [];
+    }
     field.labels.push({});
   };
   $scope.removeLabel = function(field, label) {
@@ -70,11 +78,6 @@ angular.module('yao').controller('CollectionUpdateCtrl', ['$scope', '$http', fun
   $scope.removeField = function(field) {
     $scope.collection.fields.splice($scope.collection.fields.indexOf(field), 1);
   };
-
-  /*$scope.$on('viewCollection', function(e, data) {
-    $scope.collection = data;
-    return e;
-  });*/
 
   $scope.$on('createCollection', function(e, data) {
     console.log('created');

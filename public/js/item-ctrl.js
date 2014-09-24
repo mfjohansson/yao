@@ -1,7 +1,4 @@
-angular.module('yao').controller('ItemCtrl', ['$scope', function($scope) {
-}]);
-
-angular.module('yao').controller('ItemListCtrl', ['$scope', '$http', '$rootScope', function($scope, $http, $rootScope) {
+angular.module('yao').controller('ItemCtrl', ['$scope', '$http', '$rootScope', function($scope, $http, $rootScope) {
   $scope.items = [];
   $scope.collection = {};
 
@@ -9,10 +6,6 @@ angular.module('yao').controller('ItemListCtrl', ['$scope', '$http', '$rootScope
     $http.get('/api/v1/items/' + $scope.collection.system_name).success(function(items) {
       $scope.items = items;
     });
-  };
-
-  $scope.view = function(col) {
-    $rootScope.$broadcast('viewItem', col);
   };
 
   $scope.$on('createItem', function() {
@@ -27,8 +20,17 @@ angular.module('yao').controller('ItemListCtrl', ['$scope', '$http', '$rootScope
 
 }]);
 
+angular.module('yao').controller('ItemListCtrl', ['$rootScope', '$scope', function($rootScope, $scope) {
+
+  $scope.view = function(col) {
+    $rootScope.$broadcast('viewItem', col);
+  };
+
+}]);
+
 angular.module('yao').controller('ItemCreateCtrl', ['$scope', '$http', '$rootScope', function($scope, $http, $rootScope) {
   $scope.item = {};
+  $scope.refItems = [];
   $scope.collection = {};
 
   $scope.create = function() {
@@ -38,8 +40,25 @@ angular.module('yao').controller('ItemCreateCtrl', ['$scope', '$http', '$rootSco
     });
   };
 
+  $scope.loadRef = function(ref) {
+    $http.get('/api/v1/items/' + ref).success(function(items) {
+      $scope.refItems[ref] = items;
+    });
+  };
+
   $scope.$on('viewCollection', function(e, data) {
     $scope.collection = data;
+
+    // Load ref items
+    var i = 0;
+    var l = data.fields.length;
+    while (i < l) {
+      if (data.fields[i].type === 'yao_ref') {
+        $scope.loadRef(data.fields[i].ref);
+      }
+      ++i;
+    }
+
     return e;
   });
 
