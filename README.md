@@ -10,3 +10,10 @@ NPM install:
 ```
 cd yao && npm install
 ```
+
+RUN:
+```
+node app.js
+```
+
+And go to http://localhost:3000
