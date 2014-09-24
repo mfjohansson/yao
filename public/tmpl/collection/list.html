@@ -1,0 +1,7 @@
+<h1>List of collections</h1>
+<table>
+	<tr ng-repeat="col in collections" ng-click="view(col)" style="cursor:pointer;">
+		<td>{{col.system_name}}</td>
+		<td>{{col.name}}</td>
+	</tr>
+</table>

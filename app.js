@@ -27,6 +27,7 @@ require('./lib/routes')(app);
 
 // Static
 app.use(express.static(__dirname + '/public'));
+app.use(express.static(__dirname + '/ext'));
 
 var server = app.listen(3000, function() {
     console.log('Listening on port %d', server.address().port);

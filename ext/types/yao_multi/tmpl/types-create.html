@@ -1,0 +1,9 @@
+<strong>Values to choose from:</strong><br />
+
+<div ng-repeat="label in field.labels">
+	<input type="text" ng-model="label.value" placeholder="Value" />
+	<input type="text" ng-model="label.label" placeholder="Label" />
+	<a ng-href="#" ng-click="removeLabel(field, label)">Remove option</a>
+</div>
+
+<a ng-href="#" ng-click="addLabel(field)">Add option</a>

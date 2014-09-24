@@ -1,0 +1,23 @@
+<h1>Create collection</h1>
+<form ng-submit="create()">
+  <input type="text" ng-model="collection.system_name" placeholder="System name" /><br />
+  <input type="text" ng-model="collection.name" placeholder="Name" /><br />
+  
+  <table style="border:1px dashed black;min-width:300px;">
+    <tr ng-repeat="field in collection.fields">
+      <td><input type="text" ng-model="field.system_name" placeholder="Field system name" /></td>
+      <td><input type="text" ng-model="field.name" placeholder="Field name" /></td>
+      <td>
+        <select ng-model="field.type" ng-options="type.system_name as type.label for (k, type) in types" ng-required>
+        </select>
+      </td>
+      <td>
+        <div ng-include src="'/types/' + field.type + '/tmpl/types-create.html'"></div>
+      </td>
+      <td><a ng-href="#" ng-click="removeField(field)">Remove field</a></td>
+    </tr>
+  </table>
+  <a ng-href="#" ng-click="addField()">Add field</a>
+
+  <input type="submit" value="Save" />
+</form>

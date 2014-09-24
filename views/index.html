@@ -12,143 +12,14 @@
   </head>
   <body>
 
-    <div ng-controller="MenuCtrl">
-      <h1>yao</h1>
-    </div>
+    <!-- Menu -->
+    <div ng-controller="MenuCtrl" ng-include src="'/tmpl/menu.html'"></div>
 
     <!-- Collections -->
-    <div ng-controller="CollectionCtrl" class="collection-wrapper" ng-init="list()">
-
-      <div ng-controller="CollectionCreateCtrl" class="part">
-        <h1>Create collection</h1>
-        <form ng-submit="create()">
-          <input type="text" ng-model="collection.system_name" placeholder="System name" /><br />
-          <input type="text" ng-model="collection.name" placeholder="Name" /><br />
-          
-          <table style="border:1px dashed black;min-width:300px;">
-            <tr ng-repeat="field in collection.fields">
-              <td><input type="text" ng-model="field.system_name" placeholder="Field system name" /></td>
-              <td><input type="text" ng-model="field.name" placeholder="Field name" /></td>
-              <td>
-                <select ng-model="field.type" data-ng-options="type.system_name as type.label for (k, type) in types" data-ng-required>
-                </select>
-              </td>
-              <td>
-                <div ng-show="field.type == 'yao_ref'">
-                  <select ng-model="field.ref" data-ng-options="col.system_name as col.name for col in collections">
-                  </select>
-                </div>
-                <div ng-show="field.type == 'yao_boolean'">
-                  <input type="text" ng-model="field.labels[1].label" placeholder="Label for not checked" /><br />
-                  <input type="text" ng-model="field.labels[0].label" placeholder="Label for checked" /><br />
-                </div>
-                <div ng-show="field.type == 'yao_multi'">
-                  <strong>Values to choose from:</strong><br />
-                  <div ng-repeat="label in field.labels">
-                    <input type="text" ng-model="label.value" placeholder="Value" />
-                    <input type="text" ng-model="label.label" placeholder="Label" />
-                    <a ng-href="#" ng-click="removeLabel(field, label)">Remove option</a>
-                  </div>
-                  <a ng-href="#" ng-click="addLabel(field)">Add option</a>
-                </div>
-              </td>
-              <td><a ng-href="#" ng-click="removeField(field)">Remove field</a></td>
-            </tr>
-          </table>
-          <a ng-href="#" ng-click="addField()">Add field</a>
-
-          <input type="submit" value="Save" />
-        </form>
-      </div>
-
-      <div ng-controller="CollectionListCtrl" class="part">
-        <h1>List of collections</h1>
-        <table>
-          <tr ng-repeat="col in collections" ng-click="view(col)" style="cursor:pointer;">
-            <td>{{col.system_name}}</td>
-            <td>{{col.name}}</td>
-          </tr>
-        </table>
-      </div>
-
-      <div ng-controller="CollectionUpdateCtrl" class="part">
-        <h1>Update collection</h1>
-        <i>Todo</i>
-      </div>
-
-      <div ng-controller="CollectionViewCtrl" class="part">
-        <h1>Collection: {{collection.name}}</h1>
-        System name: {{collection.system_name}}
-        <table>
-          <tr ng-repeat="field in collection.fields">
-            <td>{{field.name}}</td>
-            <td>{{field.system_name}}</td>
-            <td>{{field.type}}</td>
-          </tr>
-        </table>
-      </div>
-
-    </div>
+    <div ng-controller="CollectionCtrl" class="collection-wrapper" ng-init="list()" ng-include src="'/tmpl/collection/wrapper.html'"></div>
 
     <!-- Items -->
-    <div ng-controller="ItemCtrl" class="item-wrapper">
-
-      <div ng-controller="ItemCreateCtrl" class="part">
-        <h1>Create item</h1>
-        <form ng-submit="create()">
-          <div ng-repeat="field in collection.fields">
-            <div ng-switch="field.type">
-              <div ng-switch-when="yao_string">
-                <input type="text" ng-model="item[field.system_name]" placeholder="{{field.name}}" />
-              </div>
-              <div ng-switch-when="yao_datetime">
-                <input type="text" ng-model="item[field.system_name]" placeholder="{{field.name}}" />
-              </div>
-              <div ng-switch-when="yao_number">
-                <input type="number" ng-model="item[field.system_name]" placeholder="{{field.name}}" />
-              </div>
-              <div ng-switch-when="yao_boolean">
-                <input type="checkbox" ng-model="item[field.system_name]" /> {{field.name}}
-              </div>
-              <div ng-switch-when="yao_ref">
-                <select ng-model="item[field.system_name]" data-ng-options="item._id as item._id for (k, item) in refItems[field.ref]">
-                </select>
-              </div>
-              <div ng-switch-when="yao_multi" ng-init="item[field.system_name] = []">
-                <strong>{{field.name}}</strong>
-                <span ng-repeat="label in field.labels">
-                  <span class="option not-checked" ng-show="item[field.system_name].indexOf(label.value) === -1" ng-click="item[field.system_name].push(label.value)">{{label.label}}</span> 
-                  <span class="option checked" ng-show="item[field.system_name].indexOf(label.value) > -1" ng-click="item[field.system_name].splice(item[field.system_name].indexOf(label.value), 1)">{{label.label}}</span> 
-                </span>
-              </div>
-            </div>
-          </div>
-          <input type="submit" value="Save" />
-        </form>
-      </div>
-
-      <div ng-controller="ItemListCtrl" ng-init="list()" class="part">
-        <h1>List of items</h1>
-        <table>
-          <tr ng-repeat="item in items" ng-click="view(item)" style="cursor:pointer;">
-            <td>{{item._id}}</td>
-          </tr>
-        </table>
-      </div>
-
-      <div ng-controller="ItemUpdateCtrl" class="part">
-        <h1>Update item</h1>
-        <i>Todo</i>
-      </div>
-
-      <div ng-controller="ItemViewCtrl" class="part">
-        <h1>Item: {{item._id}}</h1>
-        <div ng-repeat="field in collection.fields">
-          <div><strong>{{field.name}}:</strong> {{item[field.system_name]}}</div>
-        </div>
-      </div>
-
-    </div>
+    <div ng-controller="ItemCtrl" class="item-wrapper" ng-include src="'/tmpl/item/wrapper.html'"></div>
 
   </body>
 </html>
