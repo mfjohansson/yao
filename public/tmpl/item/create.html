@@ -2,29 +2,7 @@
 <form ng-submit="create()">
   <div ng-repeat="field in collection.fields">
     <div ng-switch="field.type">
-      <div ng-switch-when="yao_string">
-        <input type="text" ng-model="item[field.system_name]" placeholder="{{field.name}}" />
-      </div>
-      <div ng-switch-when="yao_datetime">
-        <input type="text" ng-model="item[field.system_name]" placeholder="{{field.name}}" />
-      </div>
-      <div ng-switch-when="yao_number">
-        <input type="number" ng-model="item[field.system_name]" placeholder="{{field.name}}" />
-      </div>
-      <div ng-switch-when="yao_boolean">
-        <input type="checkbox" ng-model="item[field.system_name]" /> {{field.name}}
-      </div>
-      <div ng-switch-when="yao_ref">
-        <select ng-model="item[field.system_name]" ng-options="item._id as item._id for (k, item) in refItems[field.ref]">
-        </select>
-      </div>
-      <div ng-switch-when="yao_multi" ng-init="item[field.system_name] = []">
-        <strong>{{field.name}}</strong>
-        <span ng-repeat="label in field.labels">
-          <span class="option not-checked" ng-show="item[field.system_name].indexOf(label.value) === -1" ng-click="item[field.system_name].push(label.value)">{{label.label}}</span> 
-          <span class="option checked" ng-show="item[field.system_name].indexOf(label.value) > -1" ng-click="item[field.system_name].splice(item[field.system_name].indexOf(label.value), 1)">{{label.label}}</span> 
-        </span>
-      </div>
+      <div ng-include src="'/types/' + field.type + '/tmpl/item-create.html'"></div>
     </div>
   </div>
   <input type="submit" value="Save" />

@@ -1,4 +1,4 @@
-<h1>Create collection</h1>
+<h1 ng-bind="actionType"></h1>
 <form ng-submit="create()">
   <input type="text" ng-model="collection.system_name" placeholder="System name" /><br />
   <input type="text" ng-model="collection.name" placeholder="Name" /><br />
@@ -19,5 +19,5 @@
   </table>
   <a ng-href="#" ng-click="addField()">Add field</a>
 
-  <input type="submit" value="Save" />
+  <input type="submit" value="Save" style="position:absolute;right:15px;top:15px;" />
 </form>

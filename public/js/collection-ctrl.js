@@ -24,6 +24,7 @@ angular.module('yao').controller('CollectionListCtrl', ['$rootScope', '$scope', 
 
 angular.module('yao').controller('CollectionCreateCtrl', ['$scope', '$http', '$rootScope', function($scope, $http, $rootScope) {
   $scope.collection = {fields:[{type: 'yao_string', labels: []}]};
+  $scope.actionType = 'Create collection';
 
   $scope.create = function() {
     $http.post('/api/v1/collections', $scope.collection).success(function(col) {
@@ -64,23 +65,48 @@ angular.module('yao').controller('CollectionCreateCtrl', ['$scope', '$http', '$r
 
 }]);
 
-angular.module('yao').controller('CollectionUpdateCtrl', ['$scope', '$http', function($scope, $http) {
-  $scope.collection = {fields:[]};
+angular.module('yao').controller('CollectionUpdateCtrl', ['$scope', '$http', '$rootScope', function($scope, $http, $rootScope) {
+  $scope.collection = {};
+  $scope.actionType = 'Update collection';
 
-  $scope.update = function() {
-    $http.post('/api/v1/collections/' + $scope.collection._id).success(function(collections) {
+  $scope.create = function() {
+    $http.post('/api/v1/collections/' + $scope.collection.system_name, $scope.collection).success(function(col) {
+      $rootScope.$broadcast('createCollection', col);
+      $scope.collection = col;
     });
   };
 
   $scope.addField = function() {
-    $scope.collection.fields.push({type: 'text'});
+    if (!$scope.collection.fields) {
+      $scope.collection.fields = [];
+    }
+    $scope.collection.fields.push({fields:[{type: 'yao_string', labels: []}]});
+    console.log($scope.collection.fields);
   };
   $scope.removeField = function(field) {
     $scope.collection.fields.splice($scope.collection.fields.indexOf(field), 1);
   };
 
-  $scope.$on('createCollection', function(e, data) {
-    console.log('created');
+  $scope.addLabel = function(field) {
+    if (!field.labels) {
+      field.labels = [];
+    }
+    field.labels.push({});
+  };
+  $scope.removeLabel = function(field, label) {
+    field.labels.splice(field.labels.indexOf(label), 1);
+  };
+
+  $scope.types = [];
+  $scope.getTypes = function() {
+    $http.get('/api/v1/types').success(function(types) {
+      $scope.types = types;
+    });
+  };
+
+  $scope.getTypes();
+
+  $scope.$on('viewCollection', function(e, data) {
     $scope.collection = data;
     return e;
   });
@@ -105,5 +131,11 @@ angular.module('yao').controller('CollectionViewCtrl', ['$scope', '$http', funct
     $scope.collection = data;
     return e;
   });
+
+  $scope.remove = function() {
+    $http.delete('/api/v1/collections/' + $scope.collection.system_name).success(function(collection) {
+      $scope.collection = collection;
+    });
+  };
 
 }]);

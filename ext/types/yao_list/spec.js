@@ -2,8 +2,8 @@
 
 module.exports = {
 	ext: 'number',
-	system_name: 'yao_multi',
-	label: 'Multi',
+	system_name: 'yao_list',
+	label: 'List',
 	array: {
 		mustBe: true,
 		canBe: true
