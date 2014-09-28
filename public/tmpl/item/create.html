@@ -1,9 +1,8 @@
-<h1>Create item</h1>
+<h1 ng-bind="actionType"></h1>
 <form ng-submit="create()">
   <div ng-repeat="field in collection.fields">
-    <div ng-switch="field.type">
-      <div ng-include src="'/types/' + field.type + '/tmpl/item-create.html'"></div>
-    </div>
+  	<div style="width:25%;float:left;"><label>{{field.name}}:</label></div>
+  	<div style="margin-left:2%;width:73%;float:left;" ng-include src="'/types/' + field.type + '/tmpl/item-create.html'"></div>
   </div>
   <input type="submit" value="Save" />
 </form>

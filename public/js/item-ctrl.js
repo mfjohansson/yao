@@ -30,6 +30,8 @@ angular.module('yao').controller('ItemListCtrl', ['$rootScope', '$scope', functi
 
 angular.module('yao').controller('ItemCreateCtrl', ['$scope', '$http', '$rootScope', function($scope, $http, $rootScope) {
   $scope.item = {};
+  $scope.actionType = 'Create ' + $scope.collection.name;
+
   $scope.refItems = [];
   $scope.collection = {};
 
@@ -59,27 +61,61 @@ angular.module('yao').controller('ItemCreateCtrl', ['$scope', '$http', '$rootSco
       ++i;
     }
 
+    $scope.actionType = 'Create ' + $scope.collection.name;
+    $scope.item = {};
+
     return e;
   });
 
 }]);
 
-angular.module('yao').controller('ItemUpdateCtrl', ['$scope', '$http', function($scope, $http) {
-  $scope.item = {fields:[]};
+angular.module('yao').controller('ItemUpdateCtrl', ['$scope', '$http', '$rootScope', function($scope, $http, $rootScope) {
+  $scope.item = {};
+  $scope.actionType = 'Update ' + $scope.collection.name;
 
-  $scope.update = function() {
-    $http.post('/api/v1/items/' + $scope.item._id).success(function(items) {
+  $scope.refItems = [];
+  $scope.collection = {};
+
+  $scope.create = function() {
+    $http.post('/api/v1/items/' + $scope.collection.system_name + '/' + $scope.item._id, $scope.item).success(function(item) {
+      $rootScope.$broadcast('createItem', item);
+      $scope.item = item;
     });
   };
 
   $scope.$on('viewItem', function(e, data) {
     $scope.item = data;
+    $scope.actionType = 'Update ' + $scope.collection.name + ': ' + $scope.item.name;
     return e;
   });
 
-  $scope.$on('createItem', function(e, data) {
-    console.log('created');
-    $scope.item = data;
+  $scope.$on('removeItem', function(e, data) {
+    $scope.item = {};
+    return e;
+  });
+
+  $scope.loadRef = function(ref) {
+    $http.get('/api/v1/items/' + ref).success(function(items) {
+      $scope.refItems[ref] = items;
+    });
+  };
+
+  $scope.$on('viewCollection', function(e, data) {
+    $scope.collection = data;
+
+    // Load ref items
+    var i = 0;
+    var l = data.fields.length;
+    while (i < l) {
+      if (data.fields[i].type === 'yao_ref') {
+        $scope.loadRef(data.fields[i].ref);
+      }
+      ++i;
+    }
+
+    $scope.actionType = 'Update ' + $scope.collection.name;
+    $scope.item = {};
+
     return e;
   });
 
@@ -106,6 +142,7 @@ angular.module('yao').controller('ItemViewCtrl', ['$scope', '$http', function($s
 
   $scope.$on('viewCollection', function(e, data) {
     $scope.collection = data;
+    $scope.item = {};
     return e;
   });
 

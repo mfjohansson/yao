@@ -1,10 +1,12 @@
-<h1>Collection: {{collection.name}}</h1>
+<h1>{{collection.name}}</h1>
 System name: {{collection.system_name}}
 <table>
 	<tr ng-repeat="field in collection.fields">
 		<td>{{field.name}}</td>
 		<td>{{field.system_name}}</td>
 		<td>{{field.type}}</td>
+		<td>{{field.ref}}</td>
+		<td>{{field.labels}}</td>
 	</tr>
 </table>
 

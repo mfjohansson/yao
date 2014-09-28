@@ -1,4 +1,4 @@
-<h1>Item: {{item._id}}</h1>
+<h1>{{collection.name}}: {{item.name}}</h1>
 <div ng-repeat="field in collection.fields">
 	<div><strong>{{field.name}}:</strong> {{item[field.system_name]}}</div>
 </div>

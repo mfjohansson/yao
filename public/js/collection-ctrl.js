@@ -12,6 +12,10 @@ angular.module('yao').controller('CollectionCtrl', ['$scope', '$http', '$rootSco
     $scope.list();
   });
 
+  $scope.$on('removeCollection', function() {
+    $scope.list();
+  });
+
 }]);
 
 angular.module('yao').controller('CollectionListCtrl', ['$rootScope', '$scope', function($rootScope, $scope) {
@@ -111,9 +115,14 @@ angular.module('yao').controller('CollectionUpdateCtrl', ['$scope', '$http', '$r
     return e;
   });
 
+  $scope.$on('removeCollection', function(e, data) {
+    $scope.collection = {};
+    return e;
+  });
+
 }]);
 
-angular.module('yao').controller('CollectionViewCtrl', ['$scope', '$http', function($scope, $http) {
+angular.module('yao').controller('CollectionViewCtrl', ['$scope', '$http', '$rootScope', function($scope, $http, $rootScope) {
   $scope.collection = {};
 
   $scope.view = function() {
@@ -133,8 +142,9 @@ angular.module('yao').controller('CollectionViewCtrl', ['$scope', '$http', funct
   });
 
   $scope.remove = function() {
-    $http.delete('/api/v1/collections/' + $scope.collection.system_name).success(function(collection) {
-      $scope.collection = collection;
+    $http.delete('/api/v1/collections/' + $scope.collection.system_name).success(function() {
+      $scope.collection = {};
+      $rootScope.$broadcast('removeCollection', {});
     });
   };
 
