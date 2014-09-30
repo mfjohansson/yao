@@ -60,3 +60,20 @@ h1 {
 th {
 	text-align: left;
 }
+
+table,
+table * {
+	vertical-align: top;
+}
+
+.change-from,
+.change-to {
+	padding:4px;
+	display:inline-block;
+}
+.change-from {
+	background-color: pink;
+}
+.change-to {
+	background-color: lightgreen;
+}

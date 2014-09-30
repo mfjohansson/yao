@@ -1,0 +1,20 @@
+<h1>Log for {{item.name}}</h1>
+<table>
+	<tr ng-repeat="l in log">
+		<td>
+			<span title="{{l.d}}">{{l.d | amCalendar}}</span>
+		</td>
+		<td>
+			<div ng-switch on="l.t">
+				<div ng-switch-when="A">
+					Added
+				</div>
+				<div ng-switch-when="E">
+					<div ng-repeat="change in l.c">
+						{{change.kind}} {{change.path.join('.')}} <span class="change-from">{{change.lhs}}</span> to <span class="change-to">{{change.rhs}}</span>
+					</div>
+				</div>
+			</div>
+		</td>
+	</div>
+</table>

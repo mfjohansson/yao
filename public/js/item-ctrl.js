@@ -131,3 +131,19 @@ angular.module('yao').controller('ItemViewCtrl', ['$scope', '$http', function($s
   });
 
 }]);
+
+angular.module('yao').controller('ItemLogCtrl', ['$scope', '$http', function($scope, $http) {
+  $scope.item = {};
+  $scope.log = {};
+
+  $scope.$on('viewItem', function(e, data) {
+    $scope.item = data;
+
+    $http.get('/api/v1/log/' + $scope.collection.system_name + '/' + $scope.item._id).success(function(log) {
+      $scope.log = log;
+    });
+
+    return e;
+  });
+
+}]);
