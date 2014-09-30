@@ -1,1 +1,1 @@
-Ref: {{item[field.system_name]}}
+<span ng-repeat="item in refItems[field.ref] | filter:{_id:item[field.system_name]}">{{item.name}}</span>
