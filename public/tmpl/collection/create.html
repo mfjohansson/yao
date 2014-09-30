@@ -14,6 +14,7 @@
       <td>
         <div ng-include src="'/types/' + field.type + '/tmpl/types-create.html'"></div>
       </td>
+      <td><input type="checkbox" ng-model="field.showInList" /> Show in list</td>
       <td><a ng-href="#" ng-click="removeField(field)">Remove field</a></td>
     </tr>
   </table>

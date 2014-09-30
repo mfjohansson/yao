@@ -1,6 +1,13 @@
 <h1>List of {{collection.name}}</h1>
-	<table>
+<table>
+	<thead>
+		<tr>
+			<th ng-repeat="field in collection.fields | filter:{showInList:true}">{{field.name}}</th>
+		</tr>
+	</thead>
 	<tr ng-repeat="item in items" ng-click="view(item)" style="cursor:pointer;">
-		<td>{{item.name}}</td>
+		<td ng-repeat="field in collection.fields | filter:{showInList:true}">
+			<div ng-include src="'/types/' + field.type + '/tmpl/item-list.html'"></div>
+		</td>
 	</tr>
 </table>

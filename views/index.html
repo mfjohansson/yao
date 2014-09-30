@@ -2,8 +2,18 @@
 <html ng-app="yao">
   <head>
     <script src="/components/angularjs/angular.min.js"></script>
+    <script src="/components/moment/moment.js"></script>
+    <script src="/components/angular-moment/angular-moment.js"></script>
+    <script src="/components/moment/locale/sv.js"></script>
+    <script src="/components/moment-timezone/moment-timezone.js"></script>
     <script>
-    angular.module('yao', []);
+    angular.module('yao', ['angularMoment']);
+    angular.module('yao').constant('angularMomentConfig', {
+      timezone: 'CET'
+    });
+    angular.module('yao').run(function(amMoment) {
+      amMoment.changeLocale('sv');
+    });
     </script>
     <script src="/js/menu-ctrl.js"></script>
     <script src="/js/collection-ctrl.js"></script>

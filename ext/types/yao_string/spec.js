@@ -4,13 +4,21 @@ module.exports = {
 	ext: 'string',
 	system_name: 'yao_string',
 	label: 'Text',
-	array: {
-		mustBe: false,
-		canBe: false
+	validate: function(value) {
+		if (typeof value === 'string') {
+			return true;
+		} else {
+			return false;
+		}
 	},
-	validation: {
-		required: true,
-		minLength: true,
-		maxLength: true
+	convert: function(value) {
+		return value + '';
+	},
+	defaultValue: function(value) {
+		if (!value) {
+			return '';
+		}
+
+		return value;
 	}
 };

@@ -18,6 +18,8 @@
     "tests"
   ],
   "dependencies": {
-    "angularjs": "~1.2.25"
+    "angularjs": "~1.2.25",
+    "angular-moment": "~0.8.2",
+    "moment-timezone": "~0.2.2"
   }
 }

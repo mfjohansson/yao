@@ -142,10 +142,12 @@ angular.module('yao').controller('CollectionViewCtrl', ['$scope', '$http', '$roo
   });
 
   $scope.remove = function() {
-    $http.delete('/api/v1/collections/' + $scope.collection.system_name).success(function() {
-      $scope.collection = {};
-      $rootScope.$broadcast('removeCollection', {});
-    });
+    if (confirm('Really?')) {
+      $http.delete('/api/v1/collections/' + $scope.collection.system_name).success(function() {
+        $scope.collection = {};
+        $rootScope.$broadcast('removeCollection', {});
+      });
+    }
   };
 
 }]);
